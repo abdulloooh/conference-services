@@ -2,6 +2,7 @@
 
 const http = require("http");
 const axios = require("axios");
+const ON_DEATH = require("death")({ uncaughtException: true });
 
 const config = require("../config")[process.env.NODE_ENV || "development"];
 
@@ -20,12 +21,34 @@ server.on("listening", () => {
         `http://localhost:3080/register/${config.name}/${config.version}/${server.address().port}`
       )
       .catch(() => {
-        log.error("Service Registry unavailable");
+        log.error("Service Registry down");
       });
+
+  const unregisterService = () =>
+    axios.delete(
+      `http://localhost:3080/delete/${config.name}/${config.version}/${server.address().port}`
+    );
 
   registerService();
 
-  const heartBeat = setInterval(registerService, 20000);
+  const heartBeat = setInterval(registerService, 5000);
+
+  const cleanup = async () => {
+    clearInterval(heartBeat);
+    await unregisterService();
+  };
+
+  ON_DEATH(async function (signal, err) {
+    await cleanup().catch(() => {
+      log.error("Service Registry down");
+    });
+
+    process.exit(0);
+  });
+
+  process.on("unhandledRejection", () => {
+    throw new Error();
+  });
 
   log.info(
     `Hi there! I'm listening on port ${server.address().port} in ${service.get("env")} mode.`
