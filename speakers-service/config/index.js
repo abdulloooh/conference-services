@@ -1,4 +1,5 @@
 const bunyan = require("bunyan");
+const path = require("path");
 // Load package.json
 const pjs = require("../package.json");
 

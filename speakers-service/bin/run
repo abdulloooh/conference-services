@@ -31,7 +31,7 @@ server.on("listening", () => {
 
   registerService();
 
-  const heartBeat = setInterval(registerService, 5000);
+  const heartBeat = setInterval(registerService, 20000);
 
   const cleanup = async () => {
     clearInterval(heartBeat);

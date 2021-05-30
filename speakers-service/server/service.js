@@ -1,5 +1,6 @@
 const express = require("express");
 const Speakers = require("./lib/Speakers");
+require("express-async-errors");
 
 const service = express();
 
@@ -21,11 +22,15 @@ module.exports = (config) => {
   });
 
   service.get("/list-short", async (req, res, next) => {
-    return res.json(await speakers.getListShort);
+    return res.json(await speakers.getListShort());
   });
 
   service.get("/names", async (req, res, next) => {
     return res.json(await speakers.getNames());
+  });
+
+  service.get("/artworks", async (req, res, next) => {
+    return res.json(await speakers.getAllArtwork());
   });
 
   service.get("/speaker/:shortname", async (req, res, next) => {

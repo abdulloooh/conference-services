@@ -1,5 +1,5 @@
-const fs = require('fs');
-const util = require('util');
+const fs = require("fs");
+const util = require("util");
 
 const readFile = util.promisify(fs.readFile);
 
@@ -11,7 +11,7 @@ class SpeakersService {
   async getNames() {
     const data = await this.getData();
 
-    return data.map(speaker => ({
+    return data.map((speaker) => ({
       name: speaker.name,
       shortname: speaker.shortname,
     }));
@@ -19,7 +19,7 @@ class SpeakersService {
 
   async getListShort() {
     const data = await this.getData();
-    return data.map(speaker => ({
+    return data.map((speaker) => ({
       name: speaker.name,
       shortname: speaker.shortname,
       title: speaker.title,
@@ -28,7 +28,7 @@ class SpeakersService {
 
   async getList() {
     const data = await this.getData();
-    return data.map(speaker => ({
+    return data.map((speaker) => ({
       name: speaker.name,
       shortname: speaker.shortname,
       title: speaker.title,
@@ -50,7 +50,7 @@ class SpeakersService {
 
   async getSpeaker(shortname) {
     const data = await this.getData();
-    const speaker = data.find(current => current.shortname === shortname);
+    const speaker = data.find((current) => current.shortname === shortname);
     if (!speaker) return null;
     return {
       title: speaker.title,
@@ -62,13 +62,13 @@ class SpeakersService {
 
   async getArtworkForSpeaker(shortname) {
     const data = await this.getData();
-    const speaker = data.find(current => current.shortname === shortname);
+    const speaker = data.find((current) => current.shortname === shortname);
     if (!speaker || !speaker.artwork) return null;
     return speaker.artwork;
   }
 
   async getData() {
-    const data = await readFile(this.datafile, 'utf8');
+    const data = await readFile(this.datafile, "utf8");
     if (!data) return [];
     return JSON.parse(data).speakers;
   }
