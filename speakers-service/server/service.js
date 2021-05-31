@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const Speakers = require("./lib/Speakers");
 require("express-async-errors");
 
@@ -17,6 +18,8 @@ module.exports = (config) => {
     });
   }
 
+  service.use(express.static(config.data.images));
+
   service.get("/list", async (req, res, next) => {
     return res.json(await speakers.getList());
   });
@@ -29,7 +32,7 @@ module.exports = (config) => {
     return res.json(await speakers.getNames());
   });
 
-  service.get("/artworks", async (req, res, next) => {
+  service.get("/artwork", async (req, res, next) => {
     return res.json(await speakers.getAllArtwork());
   });
 
