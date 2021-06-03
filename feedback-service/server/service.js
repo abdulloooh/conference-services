@@ -1,3 +1,4 @@
+require("express-async-errors");
 const express = require("express");
 const service = express();
 
@@ -15,6 +16,14 @@ module.exports = (config) => {
       return next();
     });
   }
+
+  service.get("/list", async (req, res) => res.json(await feedback.getList()));
+
+  service.post("/add-entry", async (req, res) => {
+    const { name, title, message } = req.body;
+    await feedback.addEntry(name, title, message);
+    return res.sendStatus(200);
+  });
 
   // eslint-disable-next-line no-unused-vars
   service.use((error, req, res, next) => {

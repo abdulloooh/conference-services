@@ -18,7 +18,7 @@ module.exports = {
     serviceTimeout: 30,
     log: () => getLogger(name, version, "debug"),
     data: {
-      feedback: path.join(__dirname + "../data/feedback.json"),
+      feedback: path.join(__dirname, "../data/feedback.json"),
     },
   },
   production: {
