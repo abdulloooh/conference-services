@@ -2,12 +2,17 @@ require("express-async-errors");
 const express = require("express");
 const service = express();
 
+const bodyParser = require("body-parser");
+
 const Feedback = require("./lib/Feedback");
 
 module.exports = (config) => {
   const log = config.log();
 
   const feedback = new Feedback(config.data.feedback);
+
+  service.use(bodyParser.json());
+  service.use(bodyParser.urlencoded({ extended: true }));
 
   // Add a request logging middleware in development mode
   if (service.get("env") === "development") {

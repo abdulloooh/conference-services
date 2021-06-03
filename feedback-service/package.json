@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "Feedback service for conference app",
   "scripts": {
-    "start": "node bin/run | bunyan"
+    "start": "nodemon bin/run | bunyan"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
+    "body-parser": "^1.18.3",
     "bunyan": "^1.8.12",
     "death": "^1.1.0",
     "express": "^4.16.4",
